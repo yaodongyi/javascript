@@ -1,0 +1,98 @@
+<!--
+ * @Author: yaodongyi
+ * @Date: 2019-08-21 15:36:06
+ * @Description: 一个拼拼凑凑实现的无缝连接。
+ -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      .box,
+      .run {
+        width: 300px;
+      }
+      .box {
+        height: 187px;
+        border: chocolate 1px solid;
+        position: relative;
+        overflow: hidden;
+        margin: 10px auto;
+      }
+      .left,
+      .right {
+        font-size: 20px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .left {
+        left: 0;
+      }
+      .right {
+        right: 0;
+      }
+      .motion {
+        height: 100%;
+        font-size: 50px;
+        position: absolute;
+        left: 0;
+      }
+      .run {
+        display: inline-block;
+        float: left;
+        height: 100%;
+        line-height: 187px;
+        text-align: center;
+        position: relative;
+        top: 0;
+      }
+      .run img {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .run1 {
+        background: brown;
+      }
+      .run2 {
+        background: burlywood;
+      }
+      .run3 {
+        background: chartreuse;
+      }
+      .run4 {
+        background: chocolate;
+      }
+      .run5 {
+        background: cyan;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div class="motion" style="transition: all 0.3s linear;"></div>
+      <div class="left">L</div>
+      <div class="right">R</div>
+    </div>
+  </body>
+</html>
+<script src="index.js"></script>
+<script>
+  let arr = ["<img src='./1.jpeg'>", 2, "<img src='./2.jpeg'>", 4, "<img src='./3.jpeg'>"];
+  let width = 300;
+  runload(arr, width);
+</script>
