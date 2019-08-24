@@ -1,0 +1,9 @@
+{
+    "name": "app-webview",
+    "short_name": "app-webview",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#4DBA87"
+  }
+  

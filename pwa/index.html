@@ -1,0 +1,37 @@
+<!--
+ * @Author: yaodongyi
+ * @Date: 2019-08-23 11:31:09
+ * @Description: service worker demo
+ -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>serviceWorker demo</title>
+    <link rel="manifest" href="manifest.json" />
+  </head>
+  <body>
+    serviceWorker demo
+    <script>
+      // 检测浏览器是否支持SW
+      if (navigator.serviceWorker != null) {
+        navigator.serviceWorker.register('register.js').then(function(registartion) {
+          console.log('支持sw:', registartion.scope);
+        });
+      }
+
+      // 检测是否需要刷新资源
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', registartion => {
+        console.log(registartion);
+        if (refreshing) {
+          return;
+        }
+        refreshing = true;
+        window.location.reload();
+      });
+    </script>
+  </body>
+</html>
