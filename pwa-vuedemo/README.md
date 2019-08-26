@@ -12,5 +12,5 @@
 ##### 5.[附上本地调试nginx配置。](./nginx.conf)
 
 ##### 6.[http axios拦截器。](./src/utils/http.js)
-##### 7.[postcss 使用vw vh 与 rem 共存方式,实现不同倍率设计图同时用px开发。(本项目引用vant)](./postcss.congif.js)
+##### 7.[postcss 使用vw vh 与 rem 共存方式,实现不同倍率设计图同时用px开发。(本项目引用vant)](./postcss.config.js)
 ##### vh、vw、rem究极适配方案可以参考👉 https://blog.csdn.net/qq_40146880/article/details/98057328
