@@ -15,8 +15,8 @@ if (process.env.NODE_ENV === 'production') {
 axios.interceptors.request.use(
   request => {
     request.headers = {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      // "Content-Type": "application/json; charset=UTF-8",//json
+      // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      'Content-Type': 'application/json; charset=UTF-8', //json
       Accept: 'application/json'
     };
     // request.data = qs.stringify(request.data);

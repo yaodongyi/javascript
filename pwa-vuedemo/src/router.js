@@ -1,17 +1,17 @@
 /*
  * @Author: yaodongyi
  * @Date: 2019-08-24 14:46:43
- * @Description: 
+ * @Description:
  */
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Home from './views/Home.vue';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
-  // mode: 'history',
-  base: process.env.BASE_URL,
+  mode: 'history',
+  base: process.env.NODE_ENV === 'production' ? process.env.BASE_URL : '/pwa-vue', // /pwa-vue为nginx负载均衡配置的目录
   routes: [
     {
       path: '/',
@@ -27,4 +27,4 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     }
   ]
-})
+});
