@@ -5,7 +5,7 @@
  */
 import axios from './http.js';
 /**
- * 登陆接口
+ * 测试接口
  * @param {Object} params
  * @api {post} https://www.easy-mock.com/mock/5ccec7de7ffbe958f9bc418b/all
  */

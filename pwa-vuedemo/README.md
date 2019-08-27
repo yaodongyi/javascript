@@ -6,6 +6,8 @@
 
 # pwa + history 模式 基础vue-cli3项目配置
 
+### 详细说明可阅读代码，或直接查看 [👉博客说明👈](https://blog.csdn.net/qq_40146880/article/details/100078805)
+
 ##### 1.[history模式配置(设置mode:为history, base:基路径'nginx上配置的目录')。](./src/router.js)
 ##### 2.[开启pwa配置,同时附上vue-cli3脚手架build及dev配置。(vue.config,js)](./vue.config.js)
 ##### 3.[registerServiceWorker.js里面,配置内容更新时刷新页面。](./src/registerServiceWorker.js)

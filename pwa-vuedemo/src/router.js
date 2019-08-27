@@ -5,26 +5,26 @@
  */
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
+
+const component = function(url) {
+  return () => import(`@/views/${url}`);
+};
 
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
-  base: process.env.NODE_ENV === 'production' ? '/pwa-vue' : process.env.BASE_URL, // /pwa-vue为nginx负载均衡配置的目录
+  mode: 'history', // hash / history
+  base: process.env.NODE_ENV === 'production' ? '/pwa-vue' : process.env.BASE_URL, // /pwa-vue为nginx负载均衡配置的目录,如果是根目录则为“/”
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: component('Home.vue')
     },
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: component('About.vue')
     }
   ]
 });
