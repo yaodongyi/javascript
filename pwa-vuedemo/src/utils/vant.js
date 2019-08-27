@@ -4,9 +4,9 @@
  * @Description: vant 按需引入
  */
 import Vue from 'vue';
-import { Button } from 'vant';
+import { Button, Dialog } from 'vant';
 
 let vant_use = (...val) => {
   for (let i = 0; i < [...val].length; i++) Vue.use(val[i]);
 };
-vant_use(Button);
+vant_use(Button, Dialog);

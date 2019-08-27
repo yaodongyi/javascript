@@ -1,11 +1,12 @@
 /*
  * @Author: yaodongyi
  * @Date: 2019-08-24 14:46:43
- * @Description: 
+ * @Description:
  */
 /* eslint-disable no-console */
 
 import { register } from 'register-service-worker';
+import { Dialog } from 'vant';
 
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
@@ -22,7 +23,11 @@ if (process.env.NODE_ENV === 'production') {
       console.log('New content is downloading.');
     },
     updated() {
-      window.location.reload(true); // 刷新
+      Dialog.alert({
+        message: '您浏览的网站有更新！'
+      }).then(() => {
+        window.location.reload(true);
+      });
       console.log('New content is available; please refresh.');
     },
     offline() {

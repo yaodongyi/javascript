@@ -10,7 +10,7 @@ console.log(process.env.VUE_APP_LOCAL);
 console.log(process.env.VUE_APP_URL);
 module.exports = {
   publicPath: './', // 根域上下文目录
-  outputDir: 'cmvip-mengxiaoer', // 构建输出目录
+  outputDir: 'dist', // 构建输出目录
   assetsDir: 'assets', // 静态资源目录 (js, css, img, fonts)
   //   pages: {},
   lintOnSave: false, // 是否开启eslint保存检测，有效值：ture | false | 'error'
