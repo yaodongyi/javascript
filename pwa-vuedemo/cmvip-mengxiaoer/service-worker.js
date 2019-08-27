@@ -15,7 +15,7 @@ importScripts("workbox-v3.6.3/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "workbox-v3.6.3"});
 
 importScripts(
-  "precache-manifest.c0f6e7d49dc932c2cae878902f2996bb.js"
+  "precache-manifest.bbbce51232614a7d4e869ccb9daf9b58.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "pwa-vuedemo"});

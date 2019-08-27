@@ -5,7 +5,7 @@
  -->
 <template>
   <div class="home">
-    <h1>This is an home page1</h1>
+    <h1>This is an home page11</h1>
   </div>
 </template>
 
