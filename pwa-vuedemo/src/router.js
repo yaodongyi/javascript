@@ -11,7 +11,7 @@ Vue.use(Router);
 
 export default new Router({
   mode: 'history',
-  base: process.env.NODE_ENV === 'production' ? process.env.BASE_URL : '/pwa-vue', // /pwa-vue为nginx负载均衡配置的目录
+  base: process.env.NODE_ENV === 'production' ? '/pwa-vue' : process.env.BASE_URL, // /pwa-vue为nginx负载均衡配置的目录
   routes: [
     {
       path: '/',
