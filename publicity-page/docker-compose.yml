@@ -1,0 +1,8 @@
+version: '3.1'
+
+services:
+  nginx-webpage:
+    image: com.****.cloud/nginx-webpage
+    restart: always
+    ports:
+      - 1234:80
