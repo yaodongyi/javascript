@@ -1,8 +1,13 @@
+### 
+# @Author: yaodongyi
+ # @Date: 2019-08-28 10:52:48
+ # @Description: shell配置
+ ###
 #!/usr/bin/env bash
 
 set -e
 
-pwd=$PWD
+pwd=$PWD 
 
 function buildImage(){
     version=`awk '/"version":/{gsub(/"|,/,"",$2);print $2;exit;}' ${pwd}/package.json`

@@ -26,7 +26,7 @@ module.exports = {
     //   exclude: /(\/|\\)(node_modules)(\/|\\)/ // 排除node_modules文件中第三方css文件
     // },
     'postcss-pxtorem': {
-      rootValue: 16,
+      rootValue: 16, 
       propList: ['*']
     },
     cssnano: {

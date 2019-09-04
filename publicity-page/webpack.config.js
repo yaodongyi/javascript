@@ -7,7 +7,7 @@
 let finalModule = {};
 let env = process.env.WEBPACK_ENV;
 console.log(env);
-switch (env) {
+switch (env) { 
   case 'dev':
     finalModule = require('./config/webpack.dev.conf');
     break;
