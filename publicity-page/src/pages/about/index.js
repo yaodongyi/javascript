@@ -4,9 +4,13 @@
  * @Description:
  */
 import Toast from '../../plugins/Toast/Toast.js';
+console.log($web);
 $('#jump_home').click(function() {
-  console.log('about');
   Toast.show().then(res => {
     console.log(res);
+    $web.router({
+      path: 'info.html',
+      query: { id: 1 }
+    });
   });
 });

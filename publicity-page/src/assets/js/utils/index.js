@@ -14,3 +14,11 @@ addEventListener(
 function hideURLbar() {
   window.scrollTo(0, 1);
 }
+
+$('#jump_about').click(function() {
+  console.log('jump_about');
+  $web.router({
+    path: 'about.html',
+    query: { id: 1, a: { b: { c: [123] } } }
+  });
+});

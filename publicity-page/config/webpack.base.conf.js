@@ -48,7 +48,7 @@ const PAGES_PLUGIN = function() {
         return new HtmlWebpackPlugin({
           filename: val.name,
           template: val.path,
-          hash: true,
+          hash: env ? true : false,
           inject: true,
           favicon: './favicon.ico', // 添加小图标
           chunks: [val.name.split('.')[0], ...splitChunks_js] /* 如果有多个入口文件，则可以配置多个entry,若没有则全部使用index */
@@ -69,6 +69,12 @@ const config = {
     },
     ...PAGES_PLUGIN().map(res => res[ENTRY]) // 多页面入口文件并入
   ),
+  resolve: {
+    extensions: ['.js', '.json'],
+    alias: {
+      meths: resolve('/src/assets/js/common/meth.js')
+    }
+  },
   Plugins: [
     //css分离生成link
     new ExtractTextPlugin({
@@ -79,11 +85,14 @@ const config = {
       // 编译时添加全局常量
       'process.env': require('./api.env.js')
     }),
+
     new webpack.ProvidePlugin({
       // 使用jq
       $: 'jquery',
       jQuery: 'jquery',
-      'window.jQuery': 'jquery'
+      'window.jQuery': 'jquery',
+      'window.web': resolve('/src/assets/js/common/meth.js'),
+      $web: resolve('/src/assets/js/common/meth.js')
     }),
     new HtmlWebpackPlugin({
       // 编译html

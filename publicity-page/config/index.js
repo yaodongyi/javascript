@@ -8,7 +8,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {}, 
-    host: '10.8.1.143',  
+    host: 'yaodongyi',  
     port: 8769,
     autoOpenBrowser: false,
     errorOverlay: true,

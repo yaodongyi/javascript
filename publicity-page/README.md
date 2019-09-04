@@ -5,14 +5,14 @@
  -->
 # publicity-page
  
-> 该脚手架集成docker打包配置，serviceWorker离线缓存(每次打包更新版本号，弹出更新网页提示)，多页面路由配置，postcss根据rem，vwvh转换器配置，补全css前缀，自动加上favicon，多页面html打包，less，webpack常规各种分离代码、压缩、混淆等等～
+> 该脚手架集成docker打包配置，serviceWorker离线缓存(每次打包自动更新版本号，弹出更新网页提示)，多页面路由配置，postcss根据rem，vwvh转换器配置，补全css前缀，自动加上favicon，多页面html打包，less，webpack常规各种分离代码、压缩、混淆等等～
 
 ### 目录结构
 
 ```javascript
 ├── config ---------------------- [webpack配置]("./config")
 │    ├── api.env.js ------------- 开发/生成环境api接口，根据环境切换
-│    ├── sw-version.js ---------- service-worker 每次打包时更新号配置
+│    ├── sw-version.js ---------- service-worker 每次打包时自动更新版本号配置
 │    ├── webpack.base.conf ------ webpack公用配置
 │    ├── webpack.dev.conf ------- webpack开发配置
 │    ├── webpack.prod.conf ------ webpack生产环境配置
