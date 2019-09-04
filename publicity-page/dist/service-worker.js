@@ -5,7 +5,7 @@
  */
 // importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.1.0/workbox-sw.js'); // workbox
 importScripts('./static/js/workbox-sw.js'); // workbox
-let pwa_version = 'version:shQ-1567592032312'; // 提交的版本号，用以更新service-worker;
+let pwa_version = 'version:ifc-1567592502503'; // 提交的版本号，用以更新service-worker;
 let cacheList = ['/', 'index.html']; // 配置需要缓存的列表
 // 监听 service worker 的 install 事件
 self.addEventListener('install', function(event) {

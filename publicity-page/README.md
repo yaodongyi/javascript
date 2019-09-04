@@ -5,7 +5,7 @@
  -->
 # publicity-page
 
-> 该项目集成docker打包配置，serviceWorker离线缓存(每次打包更新版本号，弹出更新网页提示)，多页面路由配置，postcss根据rem，vwvh转换器配置，补全css前缀，自动加上favicon，多页面html打包，less，webpack常规各种分离代码、压缩、混淆等等～
+> 该脚手架集成docker打包配置，serviceWorker离线缓存(每次打包更新版本号，弹出更新网页提示)，多页面路由配置，postcss根据rem，vwvh转换器配置，补全css前缀，自动加上favicon，多页面html打包，less，webpack常规各种分离代码、压缩、混淆等等～
 
 ### 目录结构
 
