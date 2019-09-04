@@ -12,10 +12,13 @@
 <script>
 // @ is an alias to /src
 import { all_api } from "../utils/api.js";
+import { meth } from '../utils/methods';
+
 export default {
   name: 'home',
   created() {
     this.all_fun()
+    meth.getVue.call(this); // 2
   },
   methods: {
     async all_fun() {

@@ -13,9 +13,9 @@ import './utils/vant.js';
 import './utils/rem.js';
 
 Vue.config.productionTip = false;
-
-new Vue({
+export default new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app');
+
