@@ -4,15 +4,15 @@
  * @Description: 生成环境配置
  */
 require('./sw-version.js'); // 自动获取/设置 registerServiceWorker.js 每次更新的版本号
-const path = require('path');
-const buildPath = path.resolve(__dirname, '../dist');
-const CopyWebpackPlugin = require('copy-webpack-plugin'); /*复制文件*/
-const { CleanWebpackPlugin } = require('clean-webpack-plugin'); /* 删除dist */
+let path = require('path');
+let buildPath = path.resolve(__dirname, '../dist');
+let CopyWebpackPlugin = require('copy-webpack-plugin'); /*复制文件*/
+let { CleanWebpackPlugin } = require('clean-webpack-plugin'); /* 删除dist */
 
-const WebpackBase = require('./webpack.base.conf'); // 获取公用配置/基础配置
+let WebpackBase = require('./webpack.base.conf'); // 获取公用配置/基础配置
 console.log(WebpackBase.entry);
 
-const config = {
+let config = {
   /*状态*/
   mode: 'production',
   //入口文件
@@ -22,9 +22,9 @@ const config = {
     path: buildPath,
     filename: 'js/[name]-[chunkHash:3].js'
   },
-  optimization: WebpackBase.optimization,
+  optimization: WebpackBase.optimization, // 优化配置
   module: {
-    rules: [...WebpackBase.module.rules]
+    rules: [...WebpackBase.module.rules] // 模块规则
   },
   plugins: [
     new CleanWebpackPlugin(), // 删除dist

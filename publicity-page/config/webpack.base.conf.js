@@ -1,21 +1,18 @@
 /*
  * @Author: yaodongyi
  * @Date: 2019-09-03 15:57:12
- * @Description:
+ * @Description: 抽离公共webpack。分别用于prod.conf/dev.conf
  */
 
-const webpack = require('webpack'); /* webpack */
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin'); /*build html*/
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'); /* 错误提示 */
-const ExtractTextPlugin = require('extract-text-webpack-plugin'); /* css分离 */
-const MiniCssExtractPlugin = require('mini-css-extract-plugin'); /*build css*/
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+let webpack = require('webpack'); /* webpack */
+let path = require('path'); /* 获取系统路径 */
+let HtmlWebpackPlugin = require('html-webpack-plugin'); /*build html 打包html资源*/
+let FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'); /* 错误提示 */
+let ExtractTextPlugin = require('extract-text-webpack-plugin'); /* css分离 */
+// let MiniCssExtractPlugin = require('mini-css-extract-plugin'); /* 压缩css */
+let UglifyJsPlugin = require('uglifyjs-webpack-plugin'); /* 优化压缩混淆js代码 */
 
-const html = require('html-withimg-loader'); /*打包html src图片资源*/
-const ImageWebpackLoader = require('image-webpack-loader'); /*压缩图片*/
-
-const env = process.env.WEBPACK_ENV === 'build' ? true : false; // 判断 build/server 用以设置hash值
+let env = process.env.WEBPACK_ENV === 'build' ? true : false; // 判断 build/server 用以设置hash值
 console.log('---env---', env);
 
 function resolve(dir) {
@@ -24,14 +21,16 @@ function resolve(dir) {
 /**
  * 全局注入文件，vendor为node_modules抽离文件，其他为entry引入的js文件。
  */
-const splitChunks_js = ['vendor', 'sw', 'rem']; // 分离的js文件。用于chunks注入
+let splitChunks_js = ['vendor', 'sw', 'rem']; // 分离的js文件。用于chunks注入
 
-const pages = require('../src/pages'); // pages文件
+/* 根据传入的pages路由生成多页面 */
+let pages = require('../src/pages'); // pages文件
 const ENTRY = Symbol('entry'); // 入口文件
 const HTMLWEBPACKPLUGIN = Symbol('HtmlWebpackPlugin'); // page文件
-// 根据传入的pages路由生成多页面
+const CONTENTBASE = Symbol('contentBase');
 const PAGES_PLUGIN = function() {
   return Object.entries(pages).map(([prop, val]) => {
+    let pathSplit = val.path.split('/');
     return {
       /* 有入口文件entry的时候写入[ENTRY] */
       [ENTRY]: new (function() {
@@ -46,91 +45,79 @@ const PAGES_PLUGIN = function() {
       /* 页面文件写入[HTMLWEBPACKPLUGIN] */
       [HTMLWEBPACKPLUGIN]: new (function() {
         return new HtmlWebpackPlugin({
-          filename: val.name,
-          template: val.path,
-          hash: env ? true : false,
-          inject: true,
+          filename: val.name, // 指定写入的文件
+          template: val.path, // 模版路径
+          hash: env ? true : false, // 文件hash 根据环境配置
+          inject: true, // true/body 插入body底部, head 插入head底部
+          // title: '可供seo检索的webpack脚手架', // 此处使用了html-withimg-loader 无法使用title
+          meta: val.meta, // 注入meta
+          // 压缩 默认production为true
+          minify: {
+            removeComments: true, //清除注释
+            collapseWhitespace: true //清理空格
+          },
           favicon: './favicon.ico', // 添加小图标
           chunks: [val.name.split('.')[0], ...splitChunks_js] /* 如果有多个入口文件，则可以配置多个entry,若没有则全部使用index */
         });
-      })()
+      })(),
+      /* 多页面动态更新所需的提供内容目录 */
+      [CONTENTBASE]: path.join(__dirname, '.' + val.path.split(pathSplit[pathSplit.length - 1])[0])
     };
   });
 };
+// console.log(...PAGES_PLUGIN().map(res => res[CONTENTBASE]));
 // console.log(...PAGES_PLUGIN().map(res => res[HTMLWEBPACKPLUGIN]));
 // console.log(...PAGES_PLUGIN().map(res => res[ENTRY]));
 
-const config = {
+// 公用配置
+let config = {
   entry: Object.assign(
     {
-      index: './src/index.js', // 默认首页
+      // index: './src/pages/index.js', // 默认首页
       sw: './src/registerServiceWorker.js', // 全局注入serviceWorker
       rem: './src/assets/js/common/rem.js' // 全局多页面注入rem，根元素设置font-size。
     },
     ...PAGES_PLUGIN().map(res => res[ENTRY]) // 多页面入口文件并入
   ),
+  contentBase: [...PAGES_PLUGIN().map(res => res[CONTENTBASE])], // devServer 提供内容目录
   resolve: {
-    extensions: ['.js', '.json'],
-    alias: {
-      meths: resolve('/src/assets/js/common/meth.js')
-    }
+    extensions: ['.js', '.html', '.json'],
+    alias: {} // 路径重写
   },
   Plugins: [
-    //css分离生成link
     new ExtractTextPlugin({
-      filename: env ? 'css/[name]-[chunkHash:3].css' : 'css/[name].css',
-      allChunks: true
+      // css生成link. Extract text from a bundle, or bundles, into a separate file (将包中的文本提取到单独的文件中)。
+      filename: env ? 'css/[name]-[chunkHash:3].css' : 'css/[name].css', // 设置文件名
+      allChunks: true // Extract from all additional chunks too (从所有包中提取)。
     }),
     new webpack.DefinePlugin({
       // 编译时添加全局常量
       'process.env': require('./api.env.js')
     }),
-
     new webpack.ProvidePlugin({
-      // 使用jq
+      //全局注入
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
-      'window.web': resolve('/src/assets/js/common/meth.js'),
-      $web: resolve('/src/assets/js/common/meth.js')
-    }),
-    new HtmlWebpackPlugin({
-      // 编译html
-      filename: 'index.html',
-      template: './src/index.html',
-      inject: true,
-      hash: env ? true : false,
-      favicon: './favicon.ico', // 添加小图标
-      chunks: ['index', ...splitChunks_js]
+      'window.web': resolve('/src/assets/js/common/methods.js'),
+      $web: resolve('/src/assets/js/common/methods.js')
     }),
     ...PAGES_PLUGIN().map(res => res[HTMLWEBPACKPLUGIN]), // 根据传入的pages路由生成多页面
     new FriendlyErrorsPlugin() // 提示错误插件
   ],
   module: {
     rules: [
-      // {
-      //   test: /\.less$/,
+      // { //不抽离写法
+      //   test: /\.(less|css)$/,
       //   loader: 'style-loader!css-loader!less-loader!postcss-loader'
       // },
+      // css,less 压缩抽离
       {
-        test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'style-loader!css-loader!postcss-loader',
-            options: {
-              minimize: true
-            }
-          },
-          'postcss-loader'
-        ]
-      },
-      {
-        test: /\.less$/,
+        test: /\.(less|css)$/,
         use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
+          fallback: 'style-loader', // css,less抽离生成style。通过ExtractTextPlugin生成link
           use: ['css-loader', 'postcss-loader', 'less-loader'],
-          publicPath: '../'
+          publicPath: '../' // 设置基路径，pages以路由放置位置为基准。
         })
       },
       {
@@ -141,20 +128,20 @@ const config = {
       },
       {
         test: /\.(htm|html)$/,
-        loader: 'html-withimg-loader'
+        loader: 'html-withimg-loader' // html标签资源打包压缩，例:<img src=""> ....
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: [
           {
-            loader: 'url-loader',
+            loader: 'url-loader', // html,css引入的img会通过各自的loader经过url-loader进行解析。
             options: {
               limit: 10,
-              name: env ? 'img/[name].[hash:7].[ext]' : 'img/[name].[ext]'
+              name: env ? 'img/[name].[hash:7].[ext]' : 'img/[name].[ext]' // 判断环境hash
             }
           },
           {
-            loader: 'image-webpack-loader',
+            loader: 'image-webpack-loader', // 压缩图片(会影响画质)无使用
             options: {
               bypassOnDebug: true
             }
@@ -165,27 +152,36 @@ const config = {
   },
   optimization: {
     minimizer: [
+      // 压缩混淆js代码,默认最佳压缩。详解查看:https://github.com/webpack-contrib/uglifyjs-webpack-plugin
       new UglifyJsPlugin({
         uglifyOptions: {
+          warnings: false, // 提示信息，好鬼烦的提示。
+          parallel: true, // 启用多进程并行运行
           ie8: true
+          // 这里为ie做了处理(关键字define、default等, 缺少标识符、字符串或数字～)
+          // 本来做了兼容ie8，但因为无法很好的处理addEventListener,以及flex布局,我拒绝兼容ie8。(有需要的自行做处理)
         }
       })
     ],
+    // 分包 详解查看:https://webpack.js.org/plugins/split-chunks-plugin/
     splitChunks: {
-      chunks: 'async',
-      minSize: 30000,
-      minChunks: 1,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
+      chunks: 'all', // (all、async、initial)默认配置为async异步共享js依赖
+      minSize: 30000, // 要生成的块的最小大小（以字节为单位）
+      minChunks: 1, // 分割最少共享依赖数
+      maxAsyncRequests: 5, // 按需加载时的最大并行请求数
+      maxInitialRequests: 3, // 入口点处的最大并行请求数
       automaticNameDelimiter: '~',
-      name: true,
+      name: true, // true自动获取分割的js名称
+      // 分包抽离规则。
       cacheGroups: {
+        // 抽取node_modules公共包
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           chunks: 'all',
           name: 'vendor',
           priority: -10
         },
+        // 抽离默认依赖，例:index.js 入口文件
         default: {
           minChunks: 2,
           priority: -20,
