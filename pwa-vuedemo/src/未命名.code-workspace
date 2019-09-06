@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "/usr/local/var/www/github-javascript"
+		},
+		{
+			"path": "/usr/local/etc/nginx"
 		}
 	],
 	"settings": {}
