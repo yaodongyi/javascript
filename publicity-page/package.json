@@ -2,14 +2,15 @@
   "name": "webpage",
   "version": "1.0.1",
   "description": "",
-  "scripts": { 
+  "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "WEBPACK_ENV=build webpack -p",
-    "dev": "cross-env WEBPACK_ENV=dev webpack-dev-server"
+    "dev": "cross-env WEBPACK_ENV=dev webpack-dev-server --color"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.5.5",
     "@babel/polyfill": "^7.4.4",
     "@babel/preset-env": "^7.5.5",
     "babel-loader": "^8.0.0-beta.0",
@@ -29,6 +30,7 @@
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.4.3",
+    "node-notifier": "^5.4.3",
     "portfinder": "1.0.16",
     "postcss-aspect-ratio-mini": "^1.0.1",
     "postcss-import": "^12.0.1",
@@ -48,6 +50,7 @@
     "webpack-merge": "^4.1.4"
   },
   "dependencies": {
+    "@babel/runtime": "^7.5.5",
     "autoprefixer": "^9.6.1",
     "axios": "^0.18.0",
     "font-awesome": "^4.7.0",
