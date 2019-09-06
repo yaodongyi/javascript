@@ -8,7 +8,7 @@
 set -e
 
 pwd=$PWD 
-
+ 
 function buildImage(){
     version=`awk '/"version":/{gsub(/"|,/,"",$2);print $2;exit;}' ${pwd}/package.json`
     rm -rf dist
