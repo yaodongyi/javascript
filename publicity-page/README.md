@@ -46,7 +46,7 @@ npm run build
 ```
 >  根据传入的pages路由生成多页面的`webpack`配置自行查看[webpack.base.conf.js](./config/webpack.base.conf.js)
 
-### nginx配置 [详情查看:]("./nginx.conf")
+### nginx配置 [详情查看:](./nginx.conf)
 ```   
     # /web-page/ 为项目的基路径,代理到proxy_pass
     location /web-page/ {
