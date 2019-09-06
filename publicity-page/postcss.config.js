@@ -2,7 +2,7 @@
  * @Author: yaodongyi
  * @Date: 2019-08-09 18:19:34
  * @Description: postcss使用vw vh 与 rem 共存方式,实现不同倍率设计图同时用px开发。
- */
+ */ 
 module.exports = {
   plugins: {
     'postcss-import': {},
@@ -11,7 +11,7 @@ module.exports = {
     'postcss-write-svg': {
       utf8: false
     },
-    autoprefixer: {
+    autoprefixer: { 
       // browsers: ['last 30 versions', '> 2%', 'Firefox >= 10', 'ie 6-11']
     },
     'postcss-preset-env': {},
