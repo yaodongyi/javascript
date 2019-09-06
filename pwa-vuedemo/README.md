@@ -65,8 +65,7 @@ location /pwa-vue/ {
 
 ### 2.[开启pwa配置,同时附上vue-cli3脚手架build及dev配置。(vue.config,js)](https://github.com/yaodongyi/javascript/blob/master/pwa-vuedemo/vue.config.js)
 ```
-内容太多还是直接前往github查看～
-https://github.com/yaodongyi/javascript/blob/master/pwa-vuedemo/vue.config.js
+[内容太多还是直接前往文件查看～](./vue.config.js)
 ```
 ### 3.[registerServiceWorker.js里面,配置内容更新时刷新页面。](https://github.com/yaodongyi/javascript/blob/master/pwa-vuedemo/src/registerServiceWorker.js)
 ```javascript
