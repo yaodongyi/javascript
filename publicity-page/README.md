@@ -76,11 +76,11 @@ npm run build
 ```
 
 ### serviceWorker(离线缓存) 主要查看以下文件
->  service-worker.js sw配置文件
->  registerServiceWorker.js sw注册文件
->  manifest.json sw清单
->  config/sw-version 打包动态更新`version`。
->  文件都有注释，此处使用的sw设置了: 接口`NetworkFirst`，静态文件`CacheOnly`的缓存策略。
+>   service-worker.js sw配置文件
+>   registerServiceWorker.js sw注册文件
+>   manifest.json sw清单
+>   config/sw-version 打包动态更新`version`。
+>   文件都有注释，此处使用的sw设置了: 接口`NetworkFirst`，静态文件`CacheOnly`的缓存策略。
 
 ### Webpack
 >  对于webpack就不赘述了，文件注释很完整。想了解的可以跟着注释走一波。
