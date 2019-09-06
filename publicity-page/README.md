@@ -22,6 +22,70 @@ npm run dev
 npm run build
 ```
 
+### 路由API调用方式
+```javascript
+    // 例:
+    $web.router({
+        path: 'info.html',
+        query: { id: 1 }
+    });
+
+```
+
+### 页面路由配置
+```javascript
+    // 例:
+    {
+        name: 'index.html', // 路由名 👉 打开项目首页对应的名字，首页默认index.html，避免入口页缺失(如需修改请对应修改pwa及webpack默认入口设置)
+        meta: {
+        Keywords: '资讯,新闻,财经,房产,视频,NBA,科技,腾讯网,腾讯,QQ,Tencent'
+        },
+        entry: component('/index.js'), // 是否添加入口文件(可选)
+        path: component('/index.html')
+    },
+```
+> 根据传入的pages路由生成多页面的`webpack`配置自行查看[webpack.base.conf.js](./config/webpack.base.conf.js)
+
+### nginx配置 [详情查看:]("./nginx.conf")
+```   
+    # /web-page/ 为项目的基路径,代理到proxy_pass
+    location /web-page/ {
+        proxy_pass http://localhost/github-javascript/javascript/publicity-page/dist/; # 放在nginx上的目录
+        root   html;
+        index  index.html index.htm; 
+    }
+
+    # 如果没有https域名则直接用localhost,也就是按照上面的配置即可。
+    # 如果有https域名的话，配置443端口，url则为 https://waituntil.online/pwa-vue
+
+    server_name  waituntil.online; # 这里设置了https的域名 如果没有则使用初始值
+    # server_name  127.0.0.1; 
+
+    listen 443 ssl;
+    ssl_certificate      ssl/*******_waituntil.online.pem; # 域名的pem 放在nginx下的ssl目录
+    ssl_certificate_key  ssl/*******_waituntil.online.key; # 域名的key 放在nginx下的ssl目录
+    ssl_session_timeout 5m;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_prefer_server_ciphers on;
+```
+
+### [附上vh、vw、rem究极适配方案](./postcss.config.js)
+```
+详情查看:https://blog.csdn.net/qq_40146880/article/details/98057328
+```
+
+### serviceWorker(离线缓存) 主要查看以下文件
+> service-worker.js sw配置文件
+> registerServiceWorker.js sw注册文件
+> manifest.json sw清单
+> config/sw-version 打包动态更新`version`。
+> 文件都有注释，此处使用的sw设置了: 接口`NetworkFirst`，静态文件`CacheOnly`的缓存策略。
+
+### Webpack
+> 对于webpack就不赘述了，项目注释很完整。想了解的可以跟着注释走一波。
+> 以下是目录结构，本项目侧重点在于想要做`seo`又不想用或不会用`服务端渲染`，那么可以尝试了解一下，降低开发成本的同时提高项目逼格(总体质量))。
+
 ### 目录结构
 
 ```javascript
@@ -72,4 +136,3 @@ npm run build
 │   
 └── README.md 
 ```
-
