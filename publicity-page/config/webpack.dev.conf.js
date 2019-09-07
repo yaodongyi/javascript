@@ -12,7 +12,7 @@ let portfinder = require('portfinder');
 let utils = require('./utils.js');
 
 let WebpackBase = require('./webpack.base.conf'); // 获取公用配置/基础配置
-console.log(WebpackBase.entry);
+console.log(Object.keys(WebpackBase.entry));
 
 let config = require('./index.js'); /* 运行参数 */
 
@@ -119,7 +119,7 @@ module.exports = new Promise((resolve, reject) => {
       process.env.PORT = port; // 设置进程端口号
       devWebpackConfig.devServer.port = port; // 设置devServer端口号
       devWebpackConfig.devServer.host = getIPAdress(devWebpackConfig.devServer.host); // 获取host
-      let Network = `  \n- Network: ${config.dev.https ? 'https' : 'http'}://${devWebpackConfig.devServer.host}:${port}`;
+      let Network = `  \n- Network: ${config.dev.https ? 'https' : 'http'}://${devWebpackConfig.devServer.host}:${port} \n\n`;
       // 设置提示配置
       devWebpackConfig.plugins.push(
         new FriendlyErrorsPlugin({

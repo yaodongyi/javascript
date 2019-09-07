@@ -10,7 +10,7 @@ let CopyWebpackPlugin = require('copy-webpack-plugin'); /*复制文件*/
 let { CleanWebpackPlugin } = require('clean-webpack-plugin'); /* 删除dist */
 
 let WebpackBase = require('./webpack.base.conf'); // 获取公用配置/基础配置
-console.log(WebpackBase.entry);
+// console.log(WebpackBase.entry);
 
 let config = {
   /*状态*/

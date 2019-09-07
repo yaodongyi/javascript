@@ -13,7 +13,7 @@ let ExtractTextPlugin = require('extract-text-webpack-plugin'); /* css分离 */
 let UglifyJsPlugin = require('uglifyjs-webpack-plugin'); /* 优化压缩混淆js代码 */
 
 let env = process.env.WEBPACK_ENV === 'build' ? true : false; // 判断 build/server 用以设置hash值
-console.log('---env---', env);
+// console.log('---env---', env);
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir);
@@ -21,13 +21,14 @@ function resolve(dir) {
 /**
  * 全局注入文件，vendor为node_modules抽离文件，其他为entry引入的js文件。
  */
-let splitChunks_js = ['vendor', 'sw', 'rem']; // 分离的js文件。用于chunks注入
+let splitChunks_js = ['vendor', 'reg-sw', 'rem']; // 分离的js文件。用于chunks注入
 
 /* 根据传入的pages路由生成多页面 */
 let pages = require('../src/pages'); // pages文件
 const ENTRY = Symbol('entry'); // 入口文件
 const HTMLWEBPACKPLUGIN = Symbol('HtmlWebpackPlugin'); // page文件
 const CONTENTBASE = Symbol('contentBase');
+const SWLIST = Symbol('serviceWorker-cacheList');
 const PAGES_PLUGIN = function() {
   return Object.entries(pages).map(([prop, val]) => {
     let pathSplit = val.path.split('/');
@@ -61,10 +62,13 @@ const PAGES_PLUGIN = function() {
         });
       })(),
       /* 多页面动态更新所需的提供内容目录 */
-      [CONTENTBASE]: path.join(__dirname, '.' + val.path.split(pathSplit[pathSplit.length - 1])[0])
+      [CONTENTBASE]: path.join(__dirname, '.' + val.path.split(pathSplit[pathSplit.length - 1])[0]),
+      /* sw cacheList */
+      [SWLIST]: val.name
     };
   });
 };
+// console.log(...PAGES_PLUGIN().map(res => res[SWLIST]));
 // console.log(...PAGES_PLUGIN().map(res => res[CONTENTBASE]));
 // console.log(...PAGES_PLUGIN().map(res => res[HTMLWEBPACKPLUGIN]));
 // console.log(...PAGES_PLUGIN().map(res => res[ENTRY]));
@@ -73,13 +77,14 @@ const PAGES_PLUGIN = function() {
 let config = {
   entry: Object.assign(
     {
-      // index: './src/pages/index.js', // 默认首页
-      sw: './src/registerServiceWorker.js', // 全局注入serviceWorker
+      // index: './src/pages/index.js', // 默认首页 2019/9/7 下午12:10:18 第二次修改
+      'reg-sw': './src/registerServiceWorker.js', // 全局注入serviceWorker
       rem: './src/assets/js/common/rem.js' // 全局多页面注入rem，根元素设置font-size。
     },
     ...PAGES_PLUGIN().map(res => res[ENTRY]) // 多页面入口文件并入
   ),
   contentBase: [...PAGES_PLUGIN().map(res => res[CONTENTBASE])], // devServer 提供内容目录
+  swList: [...PAGES_PLUGIN().map(res => res[SWLIST])], // sw 缓存列表
   resolve: {
     extensions: ['.js', '.html', '.json'],
     alias: {} // 路径重写
@@ -191,6 +196,6 @@ let config = {
     }
   }
 };
-console.log('webpack.base.conf.js...');
+console.log('run webpack.base.conf.js...');
 // console.log(...config.Plugins);
 module.exports = config;
