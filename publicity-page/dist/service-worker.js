@@ -5,14 +5,16 @@
  */
 // importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.1.0/workbox-sw.js'); // workbox
 importScripts('./static/js/workbox-sw.js'); // workbox
-let pwa_version = 'version:rmb-1567766549759'; // 提交的版本号，用以更新service-worker;
-let cacheList = ['/', 'index.html']; // 配置需要缓存的列表
+// 请勿改写以下字段，swList，pwa_version，用于动态更新。
+var swList = ['index.html'];
+let pwa_version = 'version:Kjj-1567841601114'; // 提交的版本号，用以更新service-worker;
+let cacheList = ['/', ...swList]; // 配置需要缓存的列表
 /**
- * 每次更新serviceWorker文件有更新的时候，会先进入install
+ * 每次serviceWorker文件有更新的时候，会先进入install, 然后触发activate, 更新缓存。
+ * fetch事件则是请求资源时触发。
  */
 // 监听 service worker 的 install 事件
 self.addEventListener('install', function(event) {
-  console.log('install');
   // 在事件上接了一个 ExtendableEvent.waitUntil() 方法——这会确保 Service Worker 不会在 waitUntil() 里面的代码执行完毕之前安装完成。
   // 如果监听到了 service worker 已经安装成功的话，就会调用 event.waitUntil 回调函数
   event.waitUntil(
@@ -35,7 +37,6 @@ self.addEventListener('install', function(event) {
 // on fetch 的优点是无需更改编译过程，也不会产生额外的流量，缺点是需要多一次访问才能离线可用。
 // 除了静态的页面和文件之外，如果对 Ajax 数据加以适当的缓存可以实现真正的离线可用， 要达到这一步可能需要对既有的 Web App 进行一些重构以分离数据和模板。
 self.addEventListener('fetch', function(event) {
-  console.log('fetch');
   event.respondWith(
     caches.match(event.request).then(function(response) {
       if (response) {
@@ -43,14 +44,14 @@ self.addEventListener('fetch', function(event) {
          * 响应类型为 basic，亦即由自身发起的请求
          * 如果是本地静态资源和服务端资源不是同一个域名
          * 可以设置 response.type === basic为匹配规则，设置静态资源直接从serviceWorker取，除非缓存被清除
-         * @param {*} static 匹配规则
+         * @param {*} staticResource 匹配规则
          * @desc 所有静态资源直接从service-worker取,(注意：如果有动态验证码图片资源需要单独设置规则，或者从服务端取图片url)
          * @returns response 静态资源
          * @desc 这里设置静态直接返回的原因是，减少静态资源多进行一次请求。
          * @desc 并且避免服务器返回缓慢导致静态资源显示缓慢(查看首页，并设置network的网络传输为slow可以直观的看出效果)。
          */
-        let static = new RegExp(/.(js|css|png|jpe?g|gif|svg|htm|html|ico)/, 'g').test(response.url);
-        if (static) {
+        let staticResource = new RegExp(/.(js|css|png|jpe?g|gif|svg|htm|html|ico)/, 'g').test(response.url);
+        if (staticResource) {
           return response;
         }
       }
@@ -75,7 +76,7 @@ self.addEventListener('fetch', function(event) {
         .catch(err => {
           // 如果 Service Worker 有自己的返回，就直接返回
           if (response) {
-            console.log('请求服务器失败，使用缓存数据');
+            console.log(`%c 请求服务器失败，使用缓存数据 ${response.url}`, 'color:#260005;');
             return response;
           } else {
             console.error(err);
@@ -85,11 +86,26 @@ self.addEventListener('fetch', function(event) {
   );
 });
 
-self.addEventListener('message', event => {
-  if (event.data === 'skipWaiting') {
-    console.log(event);
-    self.skipWaiting();
-  }
+// self.addEventListener('message', event => {
+//   console.log(event);
+//   if (event.data === 'skipWaiting') {
+//     self.skipWaiting();
+//   }
+// });
+
+// 通信
+self.addEventListener('message', function(e) {
+  const promise = self.clients.matchAll().then(function(clients) {
+    let senderId = e.source ? e.source.id : 'unknow';
+    clients.forEach(client => {
+      // console.log(clients);
+      client.postMessage({
+        client: senderId,
+        message: e.data
+      });
+    });
+  });
+  e.waitUntil(promise);
 });
 
 /**
@@ -98,7 +114,6 @@ self.addEventListener('message', event => {
  * @desc active事件中通常做一些过期资源释放的工作
  */
 self.addEventListener('activate', function(event) {
-  console.log('activate');
   //   console.log(event);
   event.waitUntil(
     Promise.all([
