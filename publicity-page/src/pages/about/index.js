@@ -6,6 +6,7 @@
 import Toast from '../../plugins/Toast/Toast.js';
 import { all_api, all_mock } from '../../assets/js/utils/api.js';
 
+
 console.log($web, process.env);
 new (class {
   constructor() {
@@ -13,11 +14,11 @@ new (class {
     this.methods();
   }
   async create() {
-    await all_api();
+    /* await all_api();
     let data = (await all_mock()).data;
     data.projects.map(res => {
       console.log(res.number, res.address);
-    });
+    }); */
   }
   methods() {
     $('#jump_home').click(function() {
@@ -25,7 +26,7 @@ new (class {
         console.log(res);
         $web.router({
           path: 'info.html',
-          query: { id: 1 }
+          query: { a: 1 }
         });
       });
     });
