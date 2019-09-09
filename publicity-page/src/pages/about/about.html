@@ -13,7 +13,10 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   </head>
   <body>
-    <div id="app">{{ message }}</div>
+    <div id="app">
+      <p>{{ message }}</p>
+      <p :style="{color:'#260005'}">{{ important }}</p>
+    </div>
     about
     <button id="jump_home">jump_home</button>
   </body>
@@ -22,7 +25,8 @@
   var app = new Vue({
     el: '#app',
     data: {
-      message: 'Hello Vue!'
+      message: '如果是动态数据，可以引入模版进行操作。!',
+      important: 'html内联script,没有经过babel转换,无法使用 import, require'
     }
   });
 </script>
