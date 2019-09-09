@@ -6,6 +6,8 @@
 import axios from 'axios';
 import qs from 'qs';
 
+axios.defaults.timeout = 5000;
+
 if (process.env.NODE_ENV === 'production') {
   axios.defaults.baseURL = process.env.BASE_URL;
 } else {
