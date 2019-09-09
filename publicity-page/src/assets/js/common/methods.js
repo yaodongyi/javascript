@@ -3,7 +3,7 @@
  * @Date: 2019-09-04 21:12:15
  * @Description: 全局 methods-API
  */
-module.exports = new (class methods{
+module.exports = new (class methods {
   constructor() {
     this.query = this._query();
     return this;
@@ -13,15 +13,19 @@ module.exports = new (class methods{
    * @param {*} query 参数
    */
   router(arg = { path: page, query: query }) {
+    localStorage.setItem('query', '');
     if (typeof arg === 'string') {
       window.location.href = arg;
     } else if (typeof arg === 'object') {
-      window.location.href = arg.path + '?' + JSON.stringify(arg.query);
+      if (arg.query) {
+        localStorage.setItem('query', JSON.stringify(arg.query));
+      }
+      window.location.href = arg.path;
     }
     return this;
   }
   /* 获取query参数 */
   _query() {
-    if (window.location.search) return JSON.parse(unescape(window.location.search.substr(1)));
+    return localStorage.getItem('query');
   }
 })();
