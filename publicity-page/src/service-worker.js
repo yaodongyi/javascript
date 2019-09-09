@@ -6,8 +6,8 @@
 // importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.1.0/workbox-sw.js'); // workbox
 importScripts('./static/js/workbox-sw.js'); // workbox
 // 请勿改写以下字段，swList，pwa_version，用于动态更新。
-var swList = ['index.html'];
-let pwa_version = 'version:afh-1567844175841'; // 提交的版本号，用以更新service-worker;
+var swList = ['index.html','home.html','info.html','about.html'];
+let pwa_version = 'version:zPM-1568003955082'; // 提交的版本号，用以更新service-worker;
 let cacheList = ['/', ...swList]; // 配置需要缓存的列表
 /**
  * 每次serviceWorker文件有更新的时候，会先进入install, 然后触发activate, 更新缓存。
@@ -37,6 +37,8 @@ self.addEventListener('install', function(event) {
 // on fetch 的优点是无需更改编译过程，也不会产生额外的流量，缺点是需要多一次访问才能离线可用。
 // 除了静态的页面和文件之外，如果对 Ajax 数据加以适当的缓存可以实现真正的离线可用， 要达到这一步可能需要对既有的 Web App 进行一些重构以分离数据和模板。
 self.addEventListener('fetch', function(event) {
+  let timer = false;
+  // console.log(event)
   event.respondWith(
     caches.match(event.request).then(function(response) {
       if (response) {
@@ -59,11 +61,12 @@ self.addEventListener('fetch', function(event) {
       var request = event.request.clone(); // 把原始请求拷过来
       return fetch(request)
         .then(function(httpRes) {
+          console.log('timer', timer);
           // http请求的返回已被抓到，可以处置了。
           // 请求失败了，直接返回失败的结果就好了。。
           // console.log(httpRes.url, new RegExp(/.(js|css|png|jpe?g|gif|svg|htm|html|ico)/, 'g').test(httpRes.url));
           if (!httpRes || httpRes.status !== 200) {
-            return httpRes;
+            return httpRes; // 有一个缺陷，会一直等到到response返回。解决方案为:设置请求超时时间。
           }
           // 请求成功的话，将请求缓存起来。
           var responseClone = httpRes.clone();
@@ -79,7 +82,7 @@ self.addEventListener('fetch', function(event) {
             console.log(`%c 请求服务器失败，使用缓存数据 ${response.url}`, 'color:#260005;');
             return response;
           } else {
-            console.error(err);
+            console.log(err);
           }
         });
     })

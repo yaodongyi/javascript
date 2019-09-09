@@ -27,7 +27,7 @@ let swList = Object.entries(pages).map(([prop, val]) => {
 fs.readFile('./src/service-worker.js', 'utf8', function(err, files) {
   let version = files.match(/let pwa_version = 'version:(\S*?)';/)[1]; // 获取版本号
   var result = files.replace(new RegExp(version, 'g'), random);
-  // result = swListrewrite(files, result); // 开启则进入就缓存所有页面
+  result = swListrewrite(files, result); // 开启则进入就缓存所有页面
   // console.log(result, files);
   fs.writeFile('./src/service-worker.js', result, 'utf8', function(err) {
     if (err) {
@@ -43,5 +43,5 @@ fs.readFile('./src/service-worker.js', 'utf8', function(err, files) {
  * @desc 默认缓存首页，其他进入则缓存。
  */
 let swListrewrite = function(files, result) {
-  return result.replace(new RegExp(files.match(/swList = \[(\S*?)];/)[1]), swList); // 替换版本号
+  return result.replace(new RegExp(files.match(/swList = \[([\s\S]*?)];/)[1]), swList); // 替换版本号
 };
