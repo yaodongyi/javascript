@@ -6,7 +6,7 @@
 
 'use strict';
 const merge = require('webpack-merge');
-let BASE_URL = '';
+const BASE_URL = '';
 const ENV = process.env.WEBPACK_ENV;
 
 // console.log(ENV);
