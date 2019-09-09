@@ -1,7 +1,12 @@
 {
-  "name": "webpage",
-  "version": "1.0.1",
+  "name": "web-page",
+  "version": "1.0.0",
   "description": "",
+  "main": "index.js",
+  "bugs": {
+    "url": "https://github.com/yaodongyi/javascript/issues"
+  },
+  "homepage": "https://github.com/yaodongyi/javascript/tree/master/publicity-page",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "WEBPACK_ENV=build webpack -p",
