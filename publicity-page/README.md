@@ -27,9 +27,9 @@ npm run build
     // 例:
     $web.router({
         path: 'info.html',
-        query: { id: 1 }
+        query: { id: 1 }  // 这里query传值使用了localStorage
     });
-
+    // 注意: 对于pwa应用尽量不要使用url传值(或者上文query)，如果需要进行url传值，请自行配置对应规则。
 ```
 
 ### [页面路由配置](./src/pages.js)
