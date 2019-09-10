@@ -1,12 +1,11 @@
 /*
  * @Author: yaodongyi
  * @Date: 2019-08-28 10:52:48
- * @Description:
+ * @Description:webpack基础运行文件，执行对应环境配置。
  */
 
 let finalModule = {};
 let env = process.env.WEBPACK_ENV;
-console.log(env);
 switch (env) { 
   case 'dev':
     finalModule = require('./config/webpack.dev.conf');
