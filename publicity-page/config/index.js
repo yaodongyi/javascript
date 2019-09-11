@@ -8,7 +8,7 @@ module.exports = {
     disableHostCheck: true,
     publicPath: '/',
     // 不设置的时候默认host为本机ip
-    host: 'waituntil.online',
+    // host: 'waituntil.online',
     // host: 'yaodongyi',
     // host: 'localhost',
     port: 8769,
