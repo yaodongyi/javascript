@@ -138,9 +138,7 @@ module.exports = new Promise((resolve, reject) => {
             messages: [`App running at: \n    - Local:  ${chalk.blueBright(Local)}\n    - Network ${chalk.blueBright(Network)}`],
             notes: [`To create a production build, run ${chalk.cyan('npm run build')}.`]
           },
-          onErrors: config.dev.notifyOnErrors ? utils.createNotifierCallback() : undefined, // 是否提供错误信息。
-          additionalFormatters: [],
-          additionalTransformers: []
+          onErrors: config.dev.notifyOnErrors ? utils.createNotifierCallback() : undefined // 是否提供错误信息。
         })
       );
       resolve(devWebpackConfig);
