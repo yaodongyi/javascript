@@ -8,7 +8,7 @@ let path = require('path');
 let webpack = require('webpack');
 let chalk = require('chalk'); // 终端彩色打印
 let os = require('os'); // 提供基本的系统操作函数
-let FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'); /* 报错提示 */
+let FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'); /* 根据 webpack Compiler 打印信息提示 */
 let portfinder = require('portfinder'); // 端口查询器
 let utils = require('./utils.js'); // 公用工具，信息提示等
 
@@ -127,12 +127,18 @@ module.exports = new Promise((resolve, reject) => {
           console.error(err);
         } else {
           console.log(`${(stats.endTime - stats.startTime) / 1000}s`);
-          console.log(`  App running at:`);
-          console.log(`  - Local:   ${chalk.blueBright(Local)}`);
-          console.log(`  - Network: ${chalk.blueBright(Network)}`);
         }
       }); */
       devWebpackConfig.plugins.push(
+        /**
+         * @class FriendlyErrorsWebpackPlugin as FriendlyErrorsPlugin 提供了五种属性
+         * @property {Object} compilationSuccessInfo 编译成功提示
+         * @property {Function} onErrors 报错提示
+         * @property {Boolean} shouldClearConsole 默认清除终端运行信息
+         * 以下两种格式化转换器
+         * @property {Array} formatters
+         * @property {Array} transformers
+         */
         new FriendlyErrorsPlugin({
           compilationSuccessInfo: {
             messages: [`App running at: \n    - Local:  ${chalk.blueBright(Local)}\n    - Network ${chalk.blueBright(Network)}`],
