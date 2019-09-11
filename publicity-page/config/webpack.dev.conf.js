@@ -6,7 +6,7 @@
 let webpackMerge = require('webpack-merge');
 let path = require('path');
 let webpack = require('webpack');
-let chalk = require('chalk'); // 终端彩色打印
+let chalk = require('chalk'); // 提供多种彩印api
 let os = require('os'); // 提供基本的系统操作函数
 let FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'); /* 根据 webpack Compiler 打印信息提示 */
 let portfinder = require('portfinder'); // 端口查询器
