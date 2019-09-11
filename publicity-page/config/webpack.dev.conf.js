@@ -6,10 +6,11 @@
 let webpackMerge = require('webpack-merge');
 let path = require('path');
 let webpack = require('webpack');
+let chalk = require('chalk'); // 终端彩色打印
 let os = require('os'); // 提供基本的系统操作函数
 let FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'); /* 报错提示 */
-let portfinder = require('portfinder');
-let utils = require('./utils.js');
+let portfinder = require('portfinder'); // 端口查询器
+let utils = require('./utils.js'); // 公用工具，信息提示等
 
 let WebpackBase = require('./webpack.base.conf'); // 获取公用配置/基础配置
 console.log(Object.keys(WebpackBase.entry));
@@ -119,14 +120,26 @@ module.exports = new Promise((resolve, reject) => {
       process.env.PORT = port; // 设置进程端口号
       devWebpackConfig.devServer.port = port; // 设置devServer端口号
       devWebpackConfig.devServer.host = getIPAdress(devWebpackConfig.devServer.host); // 获取host
-      let Network = `  \n- Network: ${config.dev.https ? 'https' : 'http'}://${devWebpackConfig.devServer.host}:${port} \n\n`;
       // 设置提示配置
+      let Network = `${config.dev.https ? 'https' : 'http'}://${devWebpackConfig.devServer.host}:${port}`;
+      let Local = `${config.dev.https ? 'https' : 'http'}://${config.dev.host === 'localhost' ? '127.0.0.1' : 'localhost'}:${port}`;
+      /* webpack(devWebpackConfig, (err, stats) => {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log(`${(stats.endTime - stats.startTime) / 1000}s`);
+          console.log(`  App running at:`);
+          console.log(`  - Local:   ${chalk.blueBright(Local)}`);
+          console.log(`  - Network: ${chalk.blueBright(Network)}`);
+        }
+      }); */
       devWebpackConfig.plugins.push(
         new FriendlyErrorsPlugin({
           compilationSuccessInfo: {
-            messages: [`App running at: \n ${Network}`]
+            messages: [`App running at: \n    - Local:  ${chalk.blueBright(Local)}\n    - Network ${chalk.blueBright(Network)}`],
+            notes: [`To create a production build, run ${chalk.cyan('npm run build')}.`]
           },
-          onErrors: config.dev.notifyOnErrors ? utils.createNotifierCallback() : undefined, // 是否提供浏览器信息。
+          onErrors: config.dev.notifyOnErrors ? utils.createNotifierCallback() : undefined, // 是否提供错误信息。
           additionalFormatters: [],
           additionalTransformers: []
         })

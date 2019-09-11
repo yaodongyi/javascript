@@ -1,7 +1,7 @@
 /*
  * @Author: yaodongyi
  * @Date: 2019-09-05 15:44:31
- * @Description: 浏览器信息提示
+ * @Description: 信息提示
  */
 let path = require('path');
 exports.createNotifierCallback = () => {

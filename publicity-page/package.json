@@ -10,7 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "WEBPACK_ENV=build webpack -p",
-    "dev": "cross-env WEBPACK_ENV=dev webpack-dev-server --color"
+    "dev": "cross-env WEBPACK_ENV=dev webpack-dev-server"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -58,6 +58,7 @@
     "@babel/runtime": "^7.5.5",
     "autoprefixer": "^9.6.1",
     "axios": "^0.18.0",
+    "chalk": "^2.4.2",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
     "viewport-units-buggyfill": "^0.6.2"
