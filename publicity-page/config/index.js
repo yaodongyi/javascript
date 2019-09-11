@@ -14,7 +14,7 @@ module.exports = {
     port: 8769,
     https: false,
     clientLogLevel: 'none', // 运行信息 关掉可设置none
-    autoOpenBrowser: 'false', // true / false / Google Chrome
+    autoOpenBrowser: 'Google Chrome', // true / false / Google Chrome
     errorOverlay: true, // 开启浏览器全屏覆盖报错
     notifyOnErrors: true, // 开启自定义控制台报错信息
     // 对于代理不了解的，查看: https://github.com/chimurai/http-proxy-middleware

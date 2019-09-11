@@ -110,10 +110,9 @@ module.exports = new Promise((resolve, reject) => {
   /**
    * @param err 报错信息
    * @param port 端口号
-   * @desc 查询端口占用，如果占用则生成新端口+1
+   * @desc 生成终端打印提示信息，查询端口占用，如果占用则生成新端口+1。
    */
   portfinder.getPort((err, port) => {
-    // console.log(err, port);
     if (err) {
       reject(err); // 提示报错
     } else {
