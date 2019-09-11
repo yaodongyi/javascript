@@ -138,6 +138,8 @@ module.exports = new Promise((resolve, reject) => {
          * 以下两种格式化转换器
          * @property {Array} formatters
          * @property {Array} transformers
+         * @desc vue-cli2使用的plugin，cli3 重新封装 webpack Compiler 
+         * 使用 compiler.hooks.done.tap('vue-cli-service serve', stats => { ... } 构建完成输出信息
          */
         new FriendlyErrorsPlugin({
           compilationSuccessInfo: {
