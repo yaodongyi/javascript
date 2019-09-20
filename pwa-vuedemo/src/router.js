@@ -25,6 +25,11 @@ export default new Router({
       path: '/about',
       name: 'about',
       component: component('About.vue')
+    },
+    {
+      path: '/deepCopy',
+      name: 'deepCopy',
+      component: component('analog/deepCopy/deepCopy.vue')
     }
   ]
 });

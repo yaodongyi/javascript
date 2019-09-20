@@ -1,8 +1,14 @@
+<!--
+ * @Author: yaodongyi
+ * @Date: 2019-08-24 14:46:43
+ * @Description: 
+ -->
 <template>
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/about">About</router-link> |
+      <router-link to="/deepCopy">deepCopy</router-link>
     </div>
     <router-view />
   </div>
