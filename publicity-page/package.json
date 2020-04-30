@@ -60,7 +60,7 @@
     "axios": "^0.18.0",
     "chalk": "^2.4.2",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "viewport-units-buggyfill": "^0.6.2"
   },
   "browserslist": [
